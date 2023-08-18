@@ -58,10 +58,14 @@ public class PreCacheJob {
                         log.error("redis set key error",e);
                     }
                 }
-                lock.unlock();
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }finally {
+            // 只能释放自己的所
+            if(lock.isHeldByCurrentThread()){
+                lock.unlock();
+            }
         }
 
 
