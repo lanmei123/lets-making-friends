@@ -20,6 +20,17 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "node_modules/typescript/lib/lib.es5.d.ts",
+    "../../../../../../Program Files/JetBrains/WebStorm 2022.2.1/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts",
+    "../../../../../../Program Files/JetBrains/WebStorm 2022.2.1/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts",
+    "../../../../../../Program Files/JetBrains/WebStorm 2022.2.1/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts",
+    "../../../../../../Program Files/JetBrains/WebStorm 2022.2.1/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external/lib.es5.d.ts",
+    "node_modules/typescript/lib/lib.es5.d.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -17,17 +17,19 @@ import {showFailToast} from "vant";
 
 const router = useRouter();
 const searchText = ref('');
+
+const teamList = ref([]);
+
 // 跳转到加入队伍页
 const doJoinTeam = () => {
   router.push({
     path: "/team/add"
   })
 }
-const teamList = ref([]);
-// 挂载组队的列表
 
+// 挂载组队的列表
 const listTeam = async (val = '') =>{
-  const res = await myAxios.get("/team/list",{
+  const res = await myAxios.get("/team/list/my/create",{
     params:{
       searchText: val,
       pageNum: 1,
