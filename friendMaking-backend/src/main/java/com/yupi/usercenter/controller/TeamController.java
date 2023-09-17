@@ -10,10 +10,7 @@ import com.yupi.usercenter.model.domain.Team;
 import com.yupi.usercenter.model.domain.User;
 import com.yupi.usercenter.model.domain.UserTeam;
 import com.yupi.usercenter.model.dto.TeamQuery;
-import com.yupi.usercenter.model.request.TeamAddRequest;
-import com.yupi.usercenter.model.request.TeamJoinRequest;
-import com.yupi.usercenter.model.request.TeamQuitRequest;
-import com.yupi.usercenter.model.request.TeamUpdateRequest;
+import com.yupi.usercenter.model.request.*;
 import com.yupi.usercenter.model.vo.TeamUserVO;
 import com.yupi.usercenter.service.TeamService;
 import com.yupi.usercenter.service.UserService;
@@ -61,20 +58,21 @@ public class TeamController {
 
     /**
      * 组长解散队伍
-     * @param id
+     * @param deleteRequest
      * @return
      */
     @PostMapping("/delete")
-    public BaseResponse<Boolean> deleteTeam(@RequestBody long id,HttpServletRequest request) {
-        if (id <= 0) {
+    public BaseResponse<Boolean> deleteTeam(@RequestBody DeleteRequest deleteRequest, HttpServletRequest request) {
+        if (deleteRequest == null || deleteRequest.getTeamId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         User loginUser = userService.getLoginUser(request);
+        long id = deleteRequest.getTeamId();
         boolean result = teamService.deleteTeam(id,loginUser);
         if (!result) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR);
         }
-        return ResultUtils.success(result);
+        return ResultUtils.success(true);
     }
 
     @PostMapping("/update")
@@ -183,6 +181,16 @@ public class TeamController {
                 .collect(Collectors.groupingBy(UserTeam::getTeamId));
         List<Long> teamIdList = new ArrayList<>(listMap.keySet());
         teamQuery.setIdList(teamIdList);
+        //sql 参考
+        /**
+         * SELECT *
+         * from  team t
+         * where t.id IN(
+         * 	SELECT ut.teamId
+         * 	from user_team ut
+         * 	where ut.userId = ? //userId由自己传进来
+         * )
+         */
         List<TeamUserVO> teamList = teamService.listTeams(teamQuery, true);
         return ResultUtils.success(teamList);
     }

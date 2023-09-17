@@ -2,7 +2,7 @@
   <div id="teamPage">
     <van-search v-model="searchText" placeholder="搜索队伍" @search="onSearch"></van-search>
     <van-button type="primary" @click="doJoinTeam">创建队伍</van-button>
-    <team-card-list :team-list="teamList"></team-card-list>
+    <team-card-list :team-list="teamList" ></team-card-list>
     <van-empty v-if="teamList?.length<1" description="数据为空"/>
   </div>
  
@@ -24,6 +24,7 @@ const doJoinTeam = () => {
   })
 }
 const teamList = ref([]);
+
 // 挂载组队的列表
 
 const listTeam = async (val = '') =>{

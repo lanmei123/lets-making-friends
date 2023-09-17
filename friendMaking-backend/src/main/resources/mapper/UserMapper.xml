@@ -29,6 +29,11 @@
         createTime,updateTime,isDelete,
         userRole,planetCode,tags
     </sql>
+    <select id="getUserBySex" resultType="com.yupi.usercenter.model.domain.User">
+        select * from user where gender = #{gender}
+    </select>
+    <select id="getUserBySexGo" resultType="com.yupi.usercenter.model.domain.User">
+        select * from user where gender = #{gender}
+    </select>
 
-<!--    https://yupi.icu/-->
 </mapper>

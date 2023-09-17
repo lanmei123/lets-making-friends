@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -38,11 +39,14 @@ public class PreCacheJob {
     //重点用户
     List<Long> mainUserList = Arrays.asList(1L);
 
+
     /**
      * 每天执行
      */
     @Scheduled(cron = "0 23 11 * * *")
     public void doCacheRecommendUser(){
+        HashMap<String, String> stringStringHashMap = new HashMap<>();
+
         RLock lock = redissonClient.getLock("lanmei:preCacheJob:doCache:lock");
         try {
             if (lock.tryLock(0,30,TimeUnit.MINUTES)){

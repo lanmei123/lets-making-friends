@@ -99,6 +99,7 @@ const onConfirm = (date) => {
 const onSubmit = async () =>{
 
   const postData = {
+    // 由字符串转换成数字
     ...addTeamData.value,
     status: Number(addTeamData.value.status)
   }

@@ -22,12 +22,16 @@
       </div>
     </template>
     <template #footer>
-      <van-button v-if="team.createUser.id === currentUser?.data.id" size="small" type="success" plain
-                  @click="doUpdateTeam(team.id)">解散队伍</van-button>
+      <van-button v-if="team.createUser.id === currentUser?.data.id"
+                  size="small" type="success" plain
+                  @click="doDeleteTeam(team.id)">解散队伍</van-button>
+
       <van-button v-if="team.createUser.id === currentUser?.data.id" size="small" type="success" plain
                   @click="doUpdateTeam(team.id)">更新队伍</van-button>
+      <!-- todo 仅加入队伍的可见-->
       <van-button v-if="team.createUser.id === currentUser?.data.id" size="small" type="success" plain
-                  @click="doUpdateTeam(team.id)">退出队伍</van-button>
+                  @click="doQuitTeam(team.id)">退出队伍</van-button>
+
       <van-button size="small" type="primary" plain @click="doJoinTeam(team.id)">加入队伍</van-button>
     </template>
   </van-card>
@@ -72,6 +76,10 @@ const doJoinTeam = async (id:number) =>{
     showFailToast('加入失败' + (res.data.description ? `，${res.data.description}` : ''));
   }
 }
+/**
+ * 更新队伍
+ * @param id
+ */
 const doUpdateTeam = (id: number) =>{
   router.push({
     path:'/team/update',
@@ -80,6 +88,35 @@ const doUpdateTeam = (id: number) =>{
     }
   })
 }
+/**
+ * 退出队伍
+ * @param id
+ */
+const doQuitTeam = async (id: number) =>{
+  const res = await myAxios.post('/team/quit',{
+    teamId: id
+  })
+  if (res?.data.code === 0){
+    showSuccessToast('退出队伍成功');
+  }else {
+    showFailToast('退出队伍失败' + (res.data.description ? `，${res.data.description}` : ''));
+  }
+}
+/**
+ * 解散队伍/删除队伍
+ * @param id
+ */
+const doDeleteTeam = async (id: number) =>{
+  const res = await myAxios.post('/team/delete',{
+    teamId: id
+  })
+  if (res?.data.code === 0){
+    showSuccessToast('解散队伍成功');
+  }else {
+    showFailToast('解散队伍失败' + (res.data.description ? `，${res.data.description}` : ''));
+  }
+}
+
 </script>
 
 

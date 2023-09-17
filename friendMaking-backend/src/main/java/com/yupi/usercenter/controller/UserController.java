@@ -9,6 +9,7 @@ import com.yupi.usercenter.exception.BusinessException;
 import com.yupi.usercenter.model.domain.User;
 import com.yupi.usercenter.model.request.UserLoginRequest;
 import com.yupi.usercenter.model.request.UserRegisterRequest;
+import com.yupi.usercenter.model.vo.UserVO;
 import com.yupi.usercenter.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -134,6 +135,7 @@ public class UserController {
     }
 
     @GetMapping("/search/tags")
+
     public BaseResponse<List<User>> searchUsersByTags(@RequestParam(required = false) List<String> tagNameList){
         if (CollectionUtils.isEmpty(tagNameList)){
             throw new BusinessException(ErrorCode.NULL_ERROR);
@@ -142,6 +144,7 @@ public class UserController {
         return ResultUtils.success(userList);
     }
 
+    // todo 推荐多个匹配的(目前是全部一股脑推荐)
     @GetMapping("/recommend")
     public BaseResponse<Page<User>> recommendUsers(long pageSize, long pageNum, HttpServletRequest request){
         User loginUser = userService.getLoginUser(request);
@@ -188,4 +191,18 @@ public class UserController {
         return ResultUtils.success(b);
     }
 
+    /**
+     * 获取最匹配的用户
+     * @param num
+     * @param request
+     * @return
+     */
+    @GetMapping("/match")
+    public BaseResponse<List<User>> matchUsers(long num , HttpServletRequest request){
+        if (num < 0 || num >20 ){
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        User loginUser = userService.getLoginUser(request);
+        return ResultUtils.success(userService.matchUsers(num,loginUser));
+    }
 }

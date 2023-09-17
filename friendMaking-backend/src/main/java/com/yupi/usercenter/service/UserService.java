@@ -1,7 +1,9 @@
 package com.yupi.usercenter.service;
 
+import com.yupi.usercenter.common.BaseResponse;
 import com.yupi.usercenter.model.domain.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yupi.usercenter.model.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -85,4 +87,31 @@ public interface UserService extends IService<User> {
      * @return
      */
     boolean isAdmin(User loginUser);
+
+    /**
+     * 根据传入的数字判断性别
+     */
+    List<User> getUserBySex(int gender);
+
+    /**
+     * 根据post传入查询
+     * @param gender
+     * @return
+     */
+    List<User> getUserBySexGo(int gender);
+
+    /**
+     * 通过mp来查询试试看
+     * @param gender
+     * @return
+     */
+    List<User> getUserByQuery(int gender);
+
+    /**
+     * 匹配用户
+     * @param num
+     * @param loginUser
+     * @return
+     */
+    List<User> matchUsers(long num, User loginUser);
 }
